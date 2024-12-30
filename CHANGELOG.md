@@ -7,7 +7,7 @@
 
 * Changed: Naming of 'tests' folder -> 'demo' folder
 * Changed: Altered a few paths `in map_spec.lua` to adhere to the new name
-* Changed: Cleaned up main.lua 
+* Changed: Cleaned up `main.lua` 
 
 * Fixed: Staggered mode for `convertPixelToTile(x, y)` now works properly
 * Fixed: Staggered mode for `convertTileToPixel(x, y)` now works (mostly) properly
