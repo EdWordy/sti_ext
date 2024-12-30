@@ -2,7 +2,8 @@
 
 ## todo list
 
-* 1] Continue to check each module for correctness (mostly the convertPixelToTile func being a nuisance)
+* 1] Continue to check each map rendering mode for correctness (mostly the convertPixelToTile func being a nuisance)
+* 2] fix buggy physics module (seems to not work when enabled/bugs out)
 
 ## 2024-12-30: v1.3.0.2
 
