@@ -214,4 +214,18 @@ function utils.deepCopy(t)
 	return copy
 end
 
+function utils.round(x)
+	return x>=0 and math.floor(x+0.5) or math.ceil(x-0.5)
+end
+
+function utils.invert_matrix(a, b, c, d)
+    local det = 1 / (a * d - b * c)
+    return {
+        a = det * d,
+        b = det * -b,
+        c = det * -c,
+        d = det * a
+    }
+end
+
 return utils

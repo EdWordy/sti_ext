@@ -1,17 +1,36 @@
-io.stdout:setvbuf("no")
-local love = _G.love
+-----------
+-- STI_EXT
+-----------
+-- v1.3.0
+-- demo
+-----------
+
+-- includes
 local sti  = require "sti"
-local map, world, tx, ty, points
+
+-- setup local vars
+local maps, map, world, tx, ty
+local DEBUG
+
+
+
+-- define maps
+maps = {
+	"demo/collection.lua",		-- 1
+	"demo/ortho.lua",			-- 2
+	"demo/ortho-inf.lua",		-- 3
+	"demo/stag.lua",			-- 4
+	"demo/hex.lua",			-- 5 
+	"demo/objects.lua"			-- 6
+}
 
 function love.load()
-	-- Load map
-	map = sti("tests/collection.lua",  { "box2d" })
-	--map = sti("tests/ortho.lua",     { "box2d" })
-	--map = sti("tests/ortho-inf.lua", { "box2d" })
-	--map = sti("tests/iso.lua",       { "box2d" })
-	--map = sti("tests/stag.lua",      { "box2d" })
-	--map = sti("tests/hex.lua",       { "box2d" })
-	--map = sti("tests/objects.lua",   { "box2d" })
+	if DEBUG then
+		t.console = true
+	end
+
+	-- load map
+	map = sti(maps[4], { "box2d" })
 
 	-- Print versions
 	print("STI: " .. sti._VERSION)
@@ -24,64 +43,39 @@ function love.load()
 	love.physics.setMeter(32)
 	world = love.physics.newWorld(0, 0)
 	map:box2d_init(world)
-
-	-- Drop points on clicked areas
-	points = {
-		mouse = {},
-		pixel = {}
-	}
-	love.graphics.setPointSize(5)
 end
 
 function love.update(dt)
-	world:update(dt)
-	map:update(dt)
+	-- test 1: setup
+	local mx,my = love.mouse.getPosition()
+    tx,ty = map:convertPixelToTile(mx,my)
 
-	-- Move map
-	local kd = love.keyboard.isDown
-	tx = kd("a", "left")  and tx - 128 * dt or tx
-	tx = kd("d", "right") and tx + 128 * dt or tx
-	ty = kd("w", "up")    and ty - 128 * dt or ty
-	ty = kd("s", "down")  and ty + 128 * dt or ty
+	-- test 2a: remove tile
+    if(love.mouse.isDown(1)) then
+		print("mouseX: " .. mx, "mouseY: " .. my)
+		print("tileX: " .. tx,"tileY: " .. ty)
+        map:setLayerTile(1, tx, ty, 0)
+    end
+	-- test 2b: print tile coords
+	if(love.mouse.isDown(2)) then
+		local px, py = map:convertTileToPixel(tx, ty)
+		print("pixelX: " .. px, "pixelY: " .. py)
+		map:setLayerTile(1, tx, ty, 3)
+    end
 end
 
 function love.draw()
-	-- Draw map
+	-- Draw the map and all objects within
 	love.graphics.setColor(1, 1, 1)
-	map:draw(-tx, -ty)
+	map:draw()
 
-	-- Draw physics objects
-	love.graphics.setColor(1, 0, 1)
-	map:box2d_draw(-tx, -ty)
+	-- Draw Collision Map (useful for debugging)
+	--love.graphics.setColor(1, 0, 0)
+	--map:box2d_draw()
 
-	-- Draw points
-	love.graphics.translate(-tx, -ty)
-
-	love.graphics.setColor(0, 1, 1)
-	for _, point in ipairs(points.mouse) do
-		love.graphics.points(point.x, point.y)
-	end
-
-	love.graphics.setColor(1, 1, 0)
-	for _, point in ipairs(points.pixel) do
-		love.graphics.points(point.x, point.y)
-	end
-end
-
-function love.mousepressed(x, y, button)
-	if button == 1 then
-		x = x + tx
-		y = y + ty
-
-		local tilex,  tiley  = map:convertPixelToTile(x, y)
-		local pixelx, pixely = map:convertTileToPixel(tilex, tiley)
-
-		table.insert(points.pixel, { x=pixelx, y=pixely })
-		table.insert(points.mouse, { x=x,      y=y      })
-
-		print(x, tilex, pixelx)
-		print(y, tiley, pixely)
-	end
+	-- Please note that map:draw, map:box2d_draw, and map:bump_draw take
+	-- translate and scale arguments (tx, ty, sx, sy) for when you want to
+	-- grow, shrink, or reposition your map on screen
 end
 
 function love.resize(w, h)

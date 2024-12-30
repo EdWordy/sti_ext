@@ -6,9 +6,9 @@
 
 local STI = {
 	_LICENSE     = "MIT/X11",
-	_URL         = "https://github.com/karai17/Simple-Tiled-Implementation",
-	_VERSION     = "1.2.3.0",
-	_DESCRIPTION = "Simple Tiled Implementation is a Tiled Map Editor library designed for the *awesome* LÖVE framework.",
+	_URL         = "https://github.com/EdWordy/sti_ext",
+	_VERSION     = "1.3.0",
+	_DESCRIPTION = "Simple Tiled Implementation [Extended] is a Tiled Map Editor library designed for the *awesome* LÖVE framework.",
 	cache        = {}
 }
 STI.__index = STI
@@ -1359,12 +1359,18 @@ function Map:convertTileToPixel(x,y)
 		return
 			(x - y) * tileW / 2 + offsetX,
 			(x + y) * tileH / 2
-	elseif self.orientation == "staggered" or
-		self.orientation     == "hexagonal" then
+	elseif self.orientation == "staggered" then
+		local tileW = self.tilewidth
+		local tileH = self.tileheight
+		-- convert coords to screen pos
+		local pixelX = x * tileW
+		local pixelY = y * tileH / 2
+		-- return converted pos
+		return pixelX, pixelY
+	elseif self.orientation     == "hexagonal" then
 		local tileW   = self.tilewidth
 		local tileH   = self.tileheight
 		local sideLen = self.hexsidelength or 0
-
 		if self.staggeraxis == "x" then
 			return
 				x * tileW,
@@ -1398,100 +1404,14 @@ function Map:convertPixelToTile(x, y)
 			y / tileH + (x - offsetX) / tileW,
 			y / tileH - (x - offsetX) / tileW
 	elseif self.orientation == "staggered" then
-		local staggerX = self.staggeraxis  == "x"
-		local even     = self.staggerindex == "even"
-
-		local function topLeft(x, y)
-			if staggerX then
-				if ceil(x) % 2 == 1 and even then
-					return x - 1, y
-				else
-					return x - 1, y - 1
-				end
-			else
-				if ceil(y) % 2 == 1 and even then
-					return x, y - 1
-				else
-					return x - 1, y - 1
-				end
-			end
-		end
-
-		local function topRight(x, y)
-			if staggerX then
-				if ceil(x) % 2 == 1 and even then
-					return x + 1, y
-				else
-					return x + 1, y - 1
-				end
-			else
-				if ceil(y) % 2 == 1 and even then
-					return x + 1, y - 1
-				else
-					return x, y - 1
-				end
-			end
-		end
-
-		local function bottomLeft(x, y)
-			if staggerX then
-				if ceil(x) % 2 == 1 and even then
-					return x - 1, y + 1
-				else
-					return x - 1, y
-				end
-			else
-				if ceil(y) % 2 == 1 and even then
-					return x, y + 1
-				else
-					return x - 1, y + 1
-				end
-			end
-		end
-
-		local function bottomRight(x, y)
-			if staggerX then
-				if ceil(x) % 2 == 1 and even then
-					return x + 1, y + 1
-				else
-					return x + 1, y
-				end
-			else
-				if ceil(y) % 2 == 1 and even then
-					return x + 1, y + 1
-				else
-					return x, y + 1
-				end
-			end
-		end
-
 		local tileW = self.tilewidth
 		local tileH = self.tileheight
-
-		if staggerX then
-			x = x - (even and tileW / 2 or 0)
-		else
-			y = y - (even and tileH / 2 or 0)
-		end
-
-		local halfH      = tileH / 2
-		local ratio      = tileH / tileW
-		local referenceX = ceil(x / tileW)
-		local referenceY = ceil(y / tileH)
-		local relativeX  = x - referenceX * tileW
-		local relativeY  = y - referenceY * tileH
-
-		if (halfH - relativeX * ratio > relativeY) then
-			return topLeft(referenceX, referenceY)
-		elseif (-halfH + relativeX * ratio > relativeY) then
-			return topRight(referenceX, referenceY)
-		elseif (halfH + relativeX * ratio < relativeY) then
-			return bottomLeft(referenceX, referenceY)
-		elseif (halfH * 3 - relativeX * ratio < relativeY) then
-			return bottomRight(referenceX, referenceY)
-		end
-
-		return referenceX, referenceY
+		local gridH = tileH / 4
+		-- convert to rows and cols
+		local col = ceil(x / tileW)
+		local row = y / gridH
+		-- return converted coords
+		return col, utils.round(row / 2)
 	elseif self.orientation == "hexagonal" then
 		local staggerX  = self.staggeraxis  == "x"
 		local even      = self.staggerindex == "even"

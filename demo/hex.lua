@@ -21,7 +21,7 @@ return {
       tileheight = 32,
       spacing = 0,
       margin = 0,
-      image = "hex1.png",
+      image = "images/hex1.png",
       imagewidth = 96,
       imageheight = 32,
       tileoffset = {

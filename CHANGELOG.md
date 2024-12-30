@@ -1,5 +1,17 @@
 # Change Log
 
+## 2024-12-30: v1.3.0.0
+
+* Added: New tileset images include `tests/images/BW_32_Iso-Tile.png` and `tests/images/BW_32x16_Iso_Tiles.png`
+* Added: New `conf.lua` file with all modules enabled
+
+* Changed: Naming of 'tests' folder -> 'demo' folder
+* Changed: Altered a few paths `in map_spec.lua` to adhere to the new name
+* Changed: Cleaned up main.lua 
+
+* Fixed: Staggered mode for `convertPixelToTile(x, y)` now works properly
+* Fixed: Staggered mode for `convertTileToPixel(x, y)` now works (mostly) properly
+
 ## 2019-03-24: v1.2.3.0
 
 * Added: support for changing layer tiles at runtime (thanks @IoriBranford)

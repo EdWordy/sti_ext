@@ -18,7 +18,7 @@ return {
       tileheight = 184,
       spacing = 0,
       margin = 0,
-      image = "iso.png",
+      image = "images/BW_32_Iso-Tile.png",
       imagewidth = 184,
       imageheight = 184,
       tileoffset = {
