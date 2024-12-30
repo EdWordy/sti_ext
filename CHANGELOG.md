@@ -1,8 +1,21 @@
 # Change Log
 
+## todo list
+
+* Continue to check each module for correctness (mostly the convertPixelToTile func being a nuisance)
+
+## 2024-12-30: v1.3.0.1
+
+* Added: New tileset images include `demo\images\C_32_Ortho-Tile_1.png` and `demo\images\C_32_Hex-Tile_1.png`
+* Added: New menu font Robtronika  (`demo\fonts\Robtronika_bit.ttf`)
+* Added: New demo modules menu (`demo/lua/menu.lua`) and button (`demo/lua/button.lua`) for usage in the main demo
+
+* Changed: removed a few test maps: `collections.lua` and `objects.lua`
+* Changed: remade the test map suite (all maps) with new tiles
+
 ## 2024-12-30: v1.3.0.0
 
-* Added: New tileset images include `tests/images/BW_32_Iso-Tile.png` and `tests/images/BW_32x16_Iso_Tiles.png`
+* Added: New tileset images include `demo/images/BW_32_Iso-Tile.png` and `demo/images/BW_32x16_Iso_Tiles.png`
 * Added: New `conf.lua` file with all modules enabled
 
 * Changed: Naming of 'tests' folder -> 'demo' folder

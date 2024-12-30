@@ -1357,8 +1357,8 @@ function Map:convertTileToPixel(x,y)
 		local tileH   = self.tileheight
 		local offsetX = mapH * tileW / 2
 		return
-			(x - y) * tileW / 2 + offsetX,
-			(x + y) * tileH / 2
+			utils.round((x - y) * tileW / 2 + offsetX),
+			utils.round((x + y) * tileH / 2)
 	elseif self.orientation == "staggered" then
 		local tileW = self.tilewidth
 		local tileH = self.tileheight
@@ -1401,8 +1401,8 @@ function Map:convertPixelToTile(x, y)
 		local tileH   = self.tileheight
 		local offsetX = mapH * tileW / 2
 		return
-			y / tileH + (x - offsetX) / tileW,
-			y / tileH - (x - offsetX) / tileW
+			utils.round(y / tileH + (x - offsetX) / tileW),
+			utils.round(y / tileH - (x - offsetX) / tileW)
 	elseif self.orientation == "staggered" then
 		local tileW = self.tilewidth
 		local tileH = self.tileheight
