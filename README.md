@@ -1,9 +1,5 @@
 # Simple Tiled Implementation
 
-[![Join the chat at https://gitter.im/karai17/Simple-Tiled-Implementation](https://badges.gitter.im/karai17/Simple-Tiled-Implementation.svg)](https://gitter.im/karai17/Simple-Tiled-Implementation?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-If you like STI, consider tossing me a few monies via [**PayPal**][paypal].
-
 Simple Tiled Implementation is a [**Tiled**][Tiled] map loader and renderer designed for the *awesome* [**LÖVE**][LOVE] framework. Please read the [**documentation**][dox] to learn how it works, or check out the tutorials included in this repo.
 
 ## Quick Example
@@ -93,4 +89,3 @@ This code is licensed under the [**MIT/X11 Open Source License**][MIT]. Check ou
 [LOVE]: https://www.love2d.org/
 [dox]: http://karai17.github.io/Simple-Tiled-Implementation/
 [MIT]: http://www.opensource.org/licenses/mit-license.html
-[paypal]: https://www.paypal.me/LandonManning
