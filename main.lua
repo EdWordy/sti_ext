@@ -1,9 +1,9 @@
------------
+------------
 -- STI_EXT
------------
--- v1.3.0
+------------
+-- v1.3.0.3
 -- demo
------------
+------------
 
 -- includes
 local sti  = require "sti"
@@ -150,7 +150,7 @@ function love.mousepressed(x, y, button)
 end
 
 function love.resize(w, h)
-	-- core game loop [mouse]
+	-- core game loop [resize]
 	if GAMESTATE == "main_menu" then
 	elseif GAMESTATE == "play" then
 		map:resize(w, h)
