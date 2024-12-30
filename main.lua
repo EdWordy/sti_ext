@@ -31,7 +31,7 @@ function love.load()
 	end
 
 	-- load font
-	font = love.graphics.newFont("demo/fonts/Robtronika_bit.ttf")
+	font = love.graphics.newFont("demo/fonts/Robtronika_bit.ttf", 24)
 
 	-- setup main menu
 	mainMenu = menu.new()
@@ -116,10 +116,10 @@ function love.draw()
 		love.graphics.setColor(0.5, 0.5, 0.5)
 		love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 
-		local titleText = love.graphics.newText(font, "Maps:")
-		love.graphics.draw(titleText, 0, 0)
+		local titleText = love.graphics.newText(font, "Maps")
+		love.graphics.setColor(1, 1, 1)
+		love.graphics.draw(titleText, love.graphics.getWidth()/2 - 45, 120)
 		
-
 		-- draw buttons 
 		mainMenu:draw()
 
@@ -133,7 +133,7 @@ function love.draw()
 		-- grow, shrink, or reposition your map on screen
 
 		-- Draw Collision Map (useful for debugging)
-		-- CURRENTLY BORKEN?
+		-- CURRENTLY BORKEN??????????
 		--love.graphics.setColor(1, 0, 0)
 		--map:box2d_draw()
 	end

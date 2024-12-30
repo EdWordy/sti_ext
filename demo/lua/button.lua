@@ -11,6 +11,9 @@ function Button.new(x, y, width, height, text)
     button.height = height
     button.text = text
     button.isHovered = false
+    button.buttonHoverColor = {0.8,0.8,0.8}
+    button.buttonColor = {0.7,0.7,0.7}
+    button.buttonTextColor = {1,1,1}
     
     return button
 end
@@ -22,13 +25,12 @@ end
 
 function Button:draw()
     -- Draw background
-    love.graphics.setColor(self.isHovered and {0.8,0.8,0.8} or {0.7,0.7,0.7})
+    love.graphics.setColor(self.isHovered and self.buttonHoverColor or self.buttonColor)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
     
     -- Draw text
-    love.graphics.setColor(0,0,0)
-    love.graphics.printf(self.text, self.x, self.y + self.height/3, 
-                        self.width, "center")
+    love.graphics.setColor(self.buttonTextColor)
+    love.graphics.printf(self.text, self.x, self.y + self.height/3, self.width, "center")
 end
 
 function Button:mousepressed(x, y, button)

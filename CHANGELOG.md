@@ -3,8 +3,22 @@
 ## todo list
 
 * 1] continue to check each map rendering mode for correctness (mostly the convertPixelToTile func being a nuisance)
-* 2] fix buggy physics module (seems to not work when enabled/bugs out)
-* 3] rewrite staggered tile to pixel func (math is sometimes wonky)
+*	1a] Orthogonal 				-- todo
+*	1b] Isometric			  	-- todo
+*   1c] Isometric (Staggered)	-- done
+*	1d] Hexagonal 				-- done
+* 2] fix buggy physics module (seems to not work when enabled/bugs out) -- todo
+* 3] rewrite staggered tile to pixel func (math is sometimes wonky) -- todo
+
+## 2024-12-30: v1.3.0.3
+
+* Added: clarified todo list and added status indicators
+
+* Changed: `button.lua` code to be more modular and configurable with color settings
+
+* Fixed: title menu text rendering bug
+
+* Removed: old `tmx` files were thrown out and new files were moved to a new repo (to `sti_ext_extra`)
 
 ## 2024-12-30: v1.3.0.2
 
