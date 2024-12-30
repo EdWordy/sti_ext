@@ -1371,14 +1371,18 @@ function Map:convertTileToPixel(x,y)
 		local tileW   = self.tilewidth
 		local tileH   = self.tileheight
 		local sideLen = self.hexsidelength or 0
+		local even = self.staggerindex == "even" and 1 or 0
+
 		if self.staggeraxis == "x" then
+			local colW = tileW - (tileW  - sideLen) / 2
 			return
-				x * tileW,
-				ceil(y) * (tileH + sideLen) + (ceil(y) % 2 == 0 and tileH or 0)
+				(x-1) * colW,
+				ceil(y-1) * (tileH) + (ceil(x) % 2 == even and tileH / 2 or 0)
 		else
+			local rowH = tileH - (tileH - sideLen) / 2
 			return
-				ceil(x) * (tileW + sideLen) + (ceil(x) % 2 == 0 and tileW or 0),
-				y * tileH
+				ceil(x-1) * (tileW) + (ceil(y) % 2 == even and tileW / 2 or 0),
+				(y-1) * rowH
 		end
 	end
 end
@@ -1413,102 +1417,44 @@ function Map:convertPixelToTile(x, y)
 		-- return converted coords
 		return col, utils.round(row / 2)
 	elseif self.orientation == "hexagonal" then
-		local staggerX  = self.staggeraxis  == "x"
-		local even      = self.staggerindex == "even"
-		local tileW     = self.tilewidth
-		local tileH     = self.tileheight
-		local sideLenX  = 0
-		local sideLenY  = 0
-
-		local colW       = tileW / 2
-		local rowH       = tileH / 2
-		if staggerX then
-			sideLenX = self.hexsidelength
-			x = x - (even and tileW or (tileW - sideLenX) / 2)
-			colW = colW - (colW  - sideLenX / 2) / 2
+		local tileW = self.tilewidth
+		local tileH = self.tileheight
+		local sideLen = self.hexsidelength or 0
+		local even = self.staggerindex == "even" and 1 or 0
+	
+		if self.staggeraxis == "x" then
+			-- For x-axis staggering
+			local colW = tileW - (tileW - sideLen) / 2
+				
+			-- First get approximate column
+			local col = math.floor(x / colW) + 1
+				
+			-- Calculate row, taking into account the staggering
+			local rowOffset = (math.ceil(col) % 2 == even) and (tileH / 2) or 0
+			local row = math.floor((y - rowOffset) / tileH) + 1
+				
+			-- Adjust for precision
+			if col < 1 then col = 1 end
+			if row < 1 then row = 1 end
+				
+			return col, row
 		else
-			sideLenY = self.hexsidelength
-			y = y - (even and tileH or (tileH - sideLenY) / 2)
-			rowH = rowH - (rowH  - sideLenY / 2) / 2
+			-- For y-axis staggering
+			local rowH = tileH - (tileH - sideLen) / 2
+				
+			-- First get approximate row
+			local row = math.floor(y / rowH) + 1
+				
+			-- Calculate column, taking into account the staggering
+			local colOffset = (math.ceil(row) % 2 == even) and (tileW / 2) or 0
+			local col = math.floor((x - colOffset) / tileW) + 1
+				
+			-- Adjust for precision
+			if col < 1 then col = 1 end
+			if row < 1 then row = 1 end
+				
+			return col, row
 		end
-
-		local referenceX = ceil(x) / (colW * 2)
-		local referenceY = ceil(y) / (rowH * 2)
-
-    -- If in staggered line, then shift reference by 0.5 of other axes
-		if staggerX then
-			if (floor(referenceX) % 2 == 0) == even then
-				referenceY = referenceY - 0.5
-			end
-		else
-			if (floor(referenceY) % 2 == 0) == even then
-				referenceX = referenceX - 0.5
-			end
-		end
-
-		local relativeX  = x - referenceX * colW * 2
-		local relativeY  = y - referenceY * rowH * 2
-		local centers
-
-		if staggerX then
-			local left    = sideLenX / 2
-			local centerX = left + colW
-			local centerY = tileH / 2
-
-			centers = {
-				{ x = left,           y = centerY        },
-				{ x = centerX,        y = centerY - rowH },
-				{ x = centerX,        y = centerY + rowH },
-				{ x = centerX + colW, y = centerY        },
-			}
-		else
-			local top     = sideLenY / 2
-			local centerX = tileW / 2
-			local centerY = top + rowH
-
-			centers = {
-				{ x = centerX,        y = top },
-				{ x = centerX - colW, y = centerY },
-				{ x = centerX + colW, y = centerY },
-				{ x = centerX,        y = centerY + rowH }
-			}
-		end
-
-		local nearest = 0
-		local minDist = math.huge
-
-		local function len2(ax, ay)
-			return ax * ax + ay * ay
-		end
-
-		for i = 1, 4 do
-			local dc = len2(centers[i].x - relativeX, centers[i].y - relativeY)
-
-			if dc < minDist then
-				minDist = dc
-				nearest = i
-			end
-		end
-
-		local offsetsStaggerX = {
-			{ x = 1, y =  1 },
-			{ x = 2, y =  0 },
-			{ x = 2, y =  1 },
-			{ x = 3, y =  1 },
-		}
-
-		local offsetsStaggerY = {
-			{ x =  1, y = 1 },
-			{ x =  0, y = 2 },
-			{ x =  1, y = 2 },
-			{ x =  1, y = 3 },
-		}
-
-		local offsets = staggerX and offsetsStaggerX or offsetsStaggerY
-
-		return
-			referenceX + offsets[nearest].x,
-			referenceY + offsets[nearest].y
 	end
 end
 

@@ -2,28 +2,33 @@
 
 ## todo list
 
-* Continue to check each module for correctness (mostly the convertPixelToTile func being a nuisance)
+* 1] Continue to check each module for correctness (mostly the convertPixelToTile func being a nuisance)
+
+## 2024-12-30: v1.3.0.2
+
+* Fixed: hexagonal mode for `convertPixelToTile(x, y)` now works as intended
+* Fixed: hexagonal mode for `convertTileToPixel(x, y)` now works as intended
 
 ## 2024-12-30: v1.3.0.1
 
-* Added: New tileset images include `demo\images\C_32_Ortho-Tile_1.png` and `demo\images\C_32_Hex-Tile_1.png`
-* Added: New menu font Robtronika  (`demo\fonts\Robtronika_bit.ttf`)
-* Added: New demo modules menu (`demo/lua/menu.lua`) and button (`demo/lua/button.lua`) for usage in the main demo
+* Added: new tileset images include `demo\images\C_32_Ortho-Tile_1.png` and `demo\images\C_32_Hex-Tile_1.png`
+* Added: new menu font Robtronika  (`demo\fonts\Robtronika_bit.ttf`)
+* Added: new demo modules menu (`demo/lua/menu.lua`) and button (`demo/lua/button.lua`) for usage in the main demo
 
 * Changed: removed a few test maps: `collections.lua` and `objects.lua`
 * Changed: remade the test map suite (all maps) with new tiles
 
 ## 2024-12-30: v1.3.0.0
 
-* Added: New tileset images include `demo/images/BW_32_Iso-Tile.png` and `demo/images/BW_32x16_Iso_Tiles.png`
-* Added: New `conf.lua` file with all modules enabled
+* Added: new tileset images include `demo/images/BW_32_Iso-Tile.png` and `demo/images/BW_32x16_Iso_Tiles.png`
+* Added: new `conf.lua` file with all modules enabled
 
-* Changed: Naming of 'tests' folder -> 'demo' folder
-* Changed: Altered a few paths `in map_spec.lua` to adhere to the new name
-* Changed: Cleaned up `main.lua` 
+* Changed: naming of 'tests' folder -> 'demo' folder
+* Changed: altered a few paths `in map_spec.lua` to adhere to the new name
+* Changed: cleaned up `main.lua` 
 
-* Fixed: Staggered mode for `convertPixelToTile(x, y)` now works properly
-* Fixed: Staggered mode for `convertTileToPixel(x, y)` now works (mostly) properly
+* Fixed: staggered mode for `convertPixelToTile(x, y)` now works properly
+* Fixed: staggered mode for `convertTileToPixel(x, y)` now works (mostly) properly
 
 ## 2019-03-24: v1.2.3.0
 

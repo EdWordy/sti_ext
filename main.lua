@@ -20,7 +20,7 @@ local maps = {
 	"demo/ortho-inf.lua",		-- 2
 	'demo/iso.lua',				-- 3
 	"demo/stag.lua",			-- 4
-	"demo/hex.lua",				-- 4 
+	"demo/hex.lua",				-- 5 
 }
 
 function love.load()
